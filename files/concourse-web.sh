@@ -33,6 +33,9 @@ if [ ! -f "$CONCOURSE_WEB/tsa_key" ]; then
   if [ -f "$CONCOURSE_KEYS/tsa_key" ]; then
     echo '--- Using private TSA key from `'"$CONCOURSE_KEYS/tsa_key"'`.'
     cp "$CONCOURSE_KEYS/tsa_key" "$CONCOURSE_WEB/tsa_key"
+  elif [ -f "$CONCOURSE_KEYS/tsa-key" ]; then
+    echo '--- Using private TSA key from `'"$CONCOURSE_KEYS/tsa-key"'`.'
+    cp "$CONCOURSE_KEYS/tsa-key" "$CONCOURSE_WEB/tsa_key"
   else
     echo '--- Generating TSA key pair.'
     ssh-keygen -t ecdsa -b 521 -N '' -f "$CONCOURSE_WEB/tsa_key"
@@ -61,6 +64,9 @@ if [ ! -f "$CONCOURSE_WEB/authorized_worker_keys" ]; then
   elif [ -f "$CONCOURSE_KEYS/authorized_worker_keys" ]; then
     echo '--- Using authorized worker keys from `'"$CONCOURSE_KEYS/authorized_worker_keys"'`.'
     ln -s "$CONCOURSE_KEYS/authorized_worker_keys" "$CONCOURSE_WEB/authorized_worker_keys"
+  elif [ -f "$CONCOURSE_KEYS/authorized-worker-keys" ]; then
+    echo '--- Using authorized worker keys from `'"$CONCOURSE_KEYS/authorized-worker-keys"'`.'
+    ln -s "$CONCOURSE_KEYS/authorized-worker-keys" "$CONCOURSE_WEB/authorized_worker_keys"
   else
     echo '--- Generating worker key pair.'
     ssh-keygen -t ecdsa -b 521 -N '' -f "$CONCOURSE_WEB/worker_key"

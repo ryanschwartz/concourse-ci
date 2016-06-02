@@ -33,6 +33,9 @@ if [ ! -f "$CONCOURSE/tsa_key.pub" ]; then
   elif [ -f "$CONCOURSE_KEYS/tsa_key.pub" ]; then
     echo 'Using public TSA key from `'"$CONCOURSE_KEYS/tsa_key.pub"'`.'
     cp "$CONCOURSE_KEYS/tsa_key.pub" "$CONCOURSE/tsa_key.pub"
+  elif [ -f "$CONCOURSE_KEYS/tsa-key.pub" ]; then
+    echo 'Using public TSA key from `'"$CONCOURSE_KEYS/tsa-key.pub"'`.'
+    cp "$CONCOURSE_KEYS/tsa-key.pub" "$CONCOURSE/tsa_key.pub"
   else
     echo 'Fetching public TSA key from host.'
     ssh-keyscan -p "${CONCOURSE_TSA_PORT:-2222}" -- "${CONCOURSE_TSA_HOST:-0.0.0.0}" | awk '{print $2" "$3" tsa"}' >"$CONCOURSE/tsa_key.pub" || exit 1
@@ -48,6 +51,9 @@ if [ ! -f "$CONCOURSE/worker_key" ]; then
   elif [ -f "$CONCOURSE_KEYS/worker_key" ]; then
     echo 'Using private worker key from `'"$CONCOURSE_KEYS/worker_key"'`.'
     cp "$CONCOURSE_KEYS/worker_key" "$CONCOURSE/worker_key"
+  elif [ -f "$CONCOURSE_KEYS/worker-key" ]; then
+    echo 'Using private worker key from `'"$CONCOURSE_KEYS/worker-key"'`.'
+    cp "$CONCOURSE_KEYS/worker-key" "$CONCOURSE/worker_key"
   else
     echo 'Generating worker key pair.'
     ssh-keygen -t ecdsa -b 521 -N '' -f "$CONCOURSE/worker_key"
